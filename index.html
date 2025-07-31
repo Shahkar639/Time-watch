@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time watch</title>
+     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .main {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            width: 50%;
+            height: 60%;
+            background-color: #dadada;
+        }
+        .counter {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 40vh;
+            justify-content: center;
+        }
+        .counter h1 {
+            font-size: 70px;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 10vh;
+            justify-content: center;
+            gap: 30px;
+        }
+        .btn button {
+            padding: 12px 40px;
+            font-size: 12px;
+            background-color: rgb(5, 142, 196);
+            border: none;
+            color: aliceblue;
+            cursor: pointer;
+        }
+        @media screen and (max-width:810px) {
+            .container {
+                width: 80%;
+                height: 60%;
+            }
+        }
+        @media screen and (max-width:510px) {
+            .container {
+                width: 100%;
+                height: 60%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="container">
+            <div class="container-text">
+                <div class="counter">
+                    <h1 id="timer">00:00:00</h1>
+                </div>
+                <div class="btn">
+                    <button onclick="stop()">STOP</button>
+                    <button onclick="watchStart()">START</button>
+                    <button onclick="reset()">RESET</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let [seconds, minutes, hours] = [0, 0, 0];
+        let displaytime = document.querySelector("#timer");
+        let time = null;
+
+        function start() {
+            seconds++;
+            if (seconds == 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes == 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+            let h = hours < 10 ? "0" + hours : hours;
+            let m = minutes < 10 ? "0" + minutes : minutes;
+            let s = seconds < 10 ? "0" + seconds : seconds;
+            displaytime.innerHTML = `${h}:${m}:${s}`;
+        }
+
+        function watchStart() {
+            if (time === null) {
+                time = setInterval(start, 1000);
+            }
+        }
+
+        function stop() {
+            clearInterval(time);
+            time = null;
+        }
+
+        function reset() {
+            clearInterval(time);
+            time = null;
+            [seconds, minutes, hours] = [0, 0, 0];
+            displaytime.innerHTML = "00:00:00";
+        }
+    </script>
+</body>
+</html>
